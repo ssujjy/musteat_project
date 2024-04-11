@@ -67,31 +67,26 @@ class _UpdateState extends State<Update> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextField(
-                controller: codeController,
-                decoration: const InputDecoration(
-                  labelText: '학번을 입력하세요.',
-                ),
-                keyboardType: TextInputType.text,
+                controller: latController,
                 readOnly: true,
+                decoration: const InputDecoration(labelText: '위도'),
+                keyboardType: TextInputType.text,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                controller: lngController,
+                readOnly: true,
+                decoration: const InputDecoration(labelText: '경도'),
+                keyboardType: TextInputType.text,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextField(
                 controller: nameController,
-                decoration: const InputDecoration(
-                  labelText: '이름을 입력하세요.',
-                ),
-                keyboardType: TextInputType.text,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                controller: deptController,
-                decoration: const InputDecoration(
-                  labelText: '전공을 입력하세요.',
-                ),
+                decoration: const InputDecoration(labelText: '이름'),
                 keyboardType: TextInputType.text,
               ),
             ),
@@ -99,22 +94,30 @@ class _UpdateState extends State<Update> {
               padding: const EdgeInsets.all(10.0),
               child: TextField(
                 controller: phoneController,
-                decoration: const InputDecoration(
-                  labelText: '전화번호를 입력하세요.',
-                ),
+                decoration: const InputDecoration(labelText: '전화'),
+                keyboardType: TextInputType.number,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                controller: reviewController,
+                decoration: const InputDecoration(labelText: '평가'),
                 keyboardType: TextInputType.text,
               ),
             ),
             ElevatedButton(
               onPressed: () {
                 FirebaseFirestore.instance
-                    .collection('students')
+                    .collection('eatplace')
                     .doc(value[0])
                     .update({
-                  'code': codeController.text,
                   'name': nameController.text,
-                  'dept': deptController.text,
                   'phone': phoneController.text,
+                  'lat': latController.text,
+                  'lng': lngController.text,
+                  'review': reviewController.text,
+                  'initdate': ''
                 });
                 Get.back();
               },

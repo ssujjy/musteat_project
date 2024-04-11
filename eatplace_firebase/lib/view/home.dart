@@ -77,14 +77,14 @@ class _HomeState extends State<Home> {
       child: GestureDetector(
         onTap: () {
           Get.to(const Update(), arguments: [
-            seq: doc['seq'],
-            name: doc['name'],
-            phone: doc['phone'],
-            lat: doc['rat'],
-            lng: doc['lng'],
-            image: doc['image'],
-            review: doc['review'],
-            initdate: doc['initdate'],
+            doc.seq,
+            doc['name'],
+            doc['phone'],
+            doc['rat'],
+            doc['lng'],
+            doc['image'],
+            doc['review'],
+            doc['initdate'],
           ]);
         },
         child: Card(
