@@ -12,7 +12,7 @@ class Edit extends StatefulWidget {
 
 class _EditState extends State<Edit> {
   var value = Get.arguments ?? "___";
-    late int seq;
+  late int seq;
   late String name;
   late String phone;
   late double lat;

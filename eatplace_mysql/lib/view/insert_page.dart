@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,11 +21,18 @@ class _InsertPageState extends State<InsertPage> {
   late TextEditingController latController;
   late TextEditingController lngController;
   late TextEditingController reviewController;
+  
+  XFile? imageFile;
+  final ImagePicker picker = ImagePicker();
 
-  late String code;
+  late int seq;
   late String name;
-  late String dept;
   late String phone;
+  late double lat;
+  late double lng;
+  late Uint8List image;
+  late String review;
+  late String inidate;
 
   @override
   void initState() {
@@ -34,10 +43,12 @@ class _InsertPageState extends State<InsertPage> {
     lngController = TextEditingController();
     reviewController = TextEditingController();
 
-    code = "";
     name = "";
-    dept = "";
     phone = "";
+    lat = 0.0;
+    lng = 0.0;
+    review = "";
+    inidate = "";
   }
 
   @override
@@ -139,13 +150,14 @@ class _InsertPageState extends State<InsertPage> {
 
   // Functions ---------------
   insertData() async {
-    code = codeEditingController.text.toString();
-    name = nameEditingController.text.toString();
-    dept = deptEditingController.text.toString();
-    phone = phoneEditingController.text.toString();
+    name = nameController.text.toString();
+    name = phoneController.text.toString();
+    lat = double.parse(latController.text.toString());
+    lng = double.parse(lngController.text.toString());
+    review = reviewController.text.toString();
     // 데이터 가지러 가는 함수
     var url = Uri.parse(
-        'http://localhost:8080/Flutter/JSP/eatplace/student_insert_flutter.jsp?name=$name&phone=$phone&lat=$lat&lng=$lng&image=$image&review=$review'); // Rest API (json외에 다른것을 사용해도 됨)
+        'http://localhost:8080/Flutter/JSP/eatplace/eatplace_insert_return_flutter.jsp?name=$name&phone=$phone&lat=$lat&lng=$lng&image=$image&review=$review'); // Rest API (json외에 다른것을 사용해도 됨)
     var response = await http.get(url);
     json.decode(utf8.decode(response
         .bodyBytes)); // response.bodyBytes는 Uint8Byte : utf가 8bit로 되어있어서 8bit만 가져옴.
