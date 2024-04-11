@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,22 +12,44 @@ class Edit extends StatefulWidget {
 
 class _EditState extends State<Edit> {
   var value = Get.arguments ?? "___";
-  late TextEditingController codeEditingController;
-  late TextEditingController phoneEditingController;
-  late TextEditingController nameEditingController;
-  late TextEditingController deptEditingController;
+    late int seq;
+  late String name;
+  late String phone;
+  late double lat;
+  late double lng;
+  late Uint8List image;
+  late String review;
+  late String inidate;
+  
+  late TextEditingController nameController;
+  late TextEditingController phoneController;
+  late TextEditingController latController;
+  late TextEditingController lngController;
+  late TextEditingController reviewController;
 
   @override
   void initState() {
     super.initState();
-    codeEditingController = TextEditingController();
-    codeEditingController.text = value[0];
-    phoneEditingController = TextEditingController();
-    phoneEditingController.text = value[1];
-    nameEditingController = TextEditingController();
-    nameEditingController.text = value[2];
-    deptEditingController = TextEditingController();
-    deptEditingController.text = value[3];
+    nameController = TextEditingController();
+    phoneController = TextEditingController();
+    latController = TextEditingController();
+    lngController = TextEditingController();
+    reviewController = TextEditingController();
+
+    seq = value[0];
+    nameController.text = value[1];
+    phoneController.text = value[2];
+    latController.text = value[3];
+    lngController.text = value[4];
+    image = value[5];
+    reviewController.text = value[6];
+
+    name = "";
+    phone = "";
+    lat = 0.0;
+    lng = 0.0;
+    review = "";
+    inidate = "";
   }
 
   @override
@@ -35,17 +59,47 @@ class _EditState extends State<Edit> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: codeEditingController,
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                controller: latController,
+                readOnly: true,
+                decoration: const InputDecoration(labelText: '위도'),
+                keyboardType: TextInputType.text,
+              ),
             ),
-            TextField(
-              controller: phoneEditingController,
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                controller: lngController,
+                readOnly: true,
+                decoration: const InputDecoration(labelText: '경도'),
+                keyboardType: TextInputType.text,
+              ),
             ),
-            TextField(
-              controller: nameEditingController,
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                controller: nameController,
+                decoration: const InputDecoration(labelText: '이름'),
+                keyboardType: TextInputType.text,
+              ),
             ),
-            TextField(
-              controller: deptEditingController,
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                controller: phoneController,
+                decoration: const InputDecoration(labelText: '전화'),
+                keyboardType: TextInputType.number,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                controller: reviewController,
+                decoration: const InputDecoration(labelText: '평가'),
+                keyboardType: TextInputType.text,
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -54,9 +108,9 @@ class _EditState extends State<Edit> {
                   padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.back(result: codeEditingController.text);
+                      Get.back(result: nameController.text);
                     },
-                    child: const Text('Edit'),
+                    child: const Text('수정'),
                   ),
                 ),
                 Padding(

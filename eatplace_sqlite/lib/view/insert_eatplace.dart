@@ -17,7 +17,6 @@ class InsertEatPlace extends StatefulWidget {
 
 class _InsertEatPlaceState extends State<InsertEatPlace> {
   late DatabaseHandler handler;
-  late int seq;
   late String name;
   late String phone;
   late double lat;
@@ -46,9 +45,9 @@ class _InsertEatPlaceState extends State<InsertEatPlace> {
 
     name = "";
     phone = "";
-    review = "";
     lat = 0.0;
     lng = 0.0;
+    review = "";
   }
 
   @override
@@ -134,7 +133,7 @@ class _InsertEatPlaceState extends State<InsertEatPlace> {
                       Uint8List getImage = await imageFile1.readAsBytes();
 
                       EatPlace eatPlace = EatPlace(
-                          seq: seq, name: name, phone: phone,lat: lat, lng: lng, image: getImage, review: review, initdate: inidate);
+                          name: name, phone: phone,lat: lat, lng: lng, image: getImage, review: review, initdate: inidate);
                       await handler.insertEatPlace(eatPlace);
                       // print(returnValue);
                       // if (returnValue != 1) {
