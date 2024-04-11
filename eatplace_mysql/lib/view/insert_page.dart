@@ -93,7 +93,7 @@ class _InsertPageState extends State<InsertPage> {
     phone = phoneEditingController.text.toString();
     // 데이터 가지러 가는 함수
     var url = Uri.parse(
-        'http://localhost:8080/Flutter/JSP/student_insert_flutter.jsp?code=$code&name=$name&dept=$dept&phone=$phone'); // Rest API (json외에 다른것을 사용해도 됨)
+        'http://localhost:8080/Flutter/JSP/eatplace/student_insert_flutter.jsp?name=$name&phone=$phone&lat=$lat&lng=$lng&image=$image&review=$review'); // Rest API (json외에 다른것을 사용해도 됨)
     var response = await http.get(url);
     json.decode(utf8.decode(response
         .bodyBytes)); // response.bodyBytes는 Uint8Byte : utf가 8bit로 되어있어서 8bit만 가져옴.
