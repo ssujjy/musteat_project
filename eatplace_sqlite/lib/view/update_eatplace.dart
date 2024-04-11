@@ -72,23 +72,27 @@ class _UpdateEatPlaceState extends State<UpdateEatPlace> {
       body: Center(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                controller: latController,
-                readOnly: true,
-                decoration: const InputDecoration(labelText: '위도'),
-                keyboardType: TextInputType.text,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                controller: lngController,
-                readOnly: true,
-                decoration: const InputDecoration(labelText: '경도'),
-                keyboardType: TextInputType.text,
-              ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: TextField(
+                    controller: latController,
+                    readOnly: true,
+                    decoration: const InputDecoration(labelText: '위도'),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: TextField(
+                    controller: lngController,
+                    readOnly: true,
+                    decoration: const InputDecoration(labelText: '경도'),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
@@ -96,6 +100,7 @@ class _UpdateEatPlaceState extends State<UpdateEatPlace> {
                 controller: nameController,
                 decoration: const InputDecoration(labelText: '이름'),
                 keyboardType: TextInputType.text,
+                
               ),
             ),
             Padding(

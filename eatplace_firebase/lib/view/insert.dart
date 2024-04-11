@@ -14,15 +14,18 @@ class Insert extends StatefulWidget {
 }
 
 class _InsertState extends State<Insert> {
-  late TextEditingController codeController;
   late TextEditingController nameController;
-  late TextEditingController deptController;
   late TextEditingController phoneController;
+  late TextEditingController latController;
+  late TextEditingController lngController;
+  late TextEditingController reviewController;
 
-  late String code;
   late String name;
-  late String dept;
   late String phone;
+  late double lat;
+  late double lng;
+  late String review;
+  late String inidate;
 
   XFile? imageFile;
   final ImagePicker picker = ImagePicker();
@@ -31,64 +34,73 @@ class _InsertState extends State<Insert> {
   @override
   void initState() {
     super.initState();
-    codeController = TextEditingController();
     nameController = TextEditingController();
-    deptController = TextEditingController();
     phoneController = TextEditingController();
+    reviewController = TextEditingController();
+    latController = TextEditingController();
+    lngController = TextEditingController();
 
-    code = "";
     name = "";
-    dept = "";
     phone = "";
+    lat = 0.0;
+    lng = 0.0;
+    review = "";
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Insert for Firebase'),
+        title: const Text('나만의 맛집 - Firebase'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                controller: codeController,
-                decoration: const InputDecoration(
-                  labelText: '학번을 입력하세요.',
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: TextField(
+                    controller: latController,
+                    readOnly: true,
+                    decoration: const InputDecoration(labelText: '위도'),
+                    keyboardType: TextInputType.number,
+                  ),
                 ),
-                keyboardType: TextInputType.text,
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: TextField(
+                    controller: lngController,
+                    readOnly: true,
+                    decoration: const InputDecoration(labelText: '경도'),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextField(
                 controller: nameController,
-                decoration: const InputDecoration(
-                  labelText: '이름을 입력하세요.',
-                ),
+                decoration: const InputDecoration(labelText: '이름'),
                 keyboardType: TextInputType.text,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                controller: deptController,
-                decoration: const InputDecoration(
-                  labelText: '전공을 입력하세요.',
-                ),
-                keyboardType: TextInputType.text,
+                
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextField(
                 controller: phoneController,
-                decoration: const InputDecoration(
-                  labelText: '전화번호를 입력하세요.',
-                ),
+                decoration: const InputDecoration(labelText: '전화'),
+                keyboardType: TextInputType.number,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                controller: reviewController,
+                decoration: const InputDecoration(labelText: '평가'),
                 keyboardType: TextInputType.text,
               ),
             ),
@@ -102,17 +114,18 @@ class _InsertState extends State<Insert> {
               color: Colors.grey,
               child: Center(
                 child: imageFile == null
-                    ? const Text('Image is not selected')
+                    ? const Text('Image is not selected.')
                     : Image.file(File(imageFile!.path)),
               ),
             ),
             ElevatedButton(
               onPressed: () {
                 FirebaseFirestore.instance.collection('student').add({
-                  'code': codeController.text,
                   'name': nameController.text,
-                  'dept': deptController.text,
                   'phone': phoneController.text,
+                  'lat': latController.text,
+                  'lng': lngController.text,
+                  'review': reviewController.text,
                 });
                 Get.back();
               },
@@ -133,16 +146,15 @@ class _InsertState extends State<Insert> {
   }
 
   insertAction() async {
-    String code = codeController.text;
-    String name = nameController.text;
-    String dept = deptController.text;
-    String phone = phoneController.text;
+    name = nameController.text;
+    phone = phoneController.text;
+    lat = double.parse(latController.text);
+    lng = double.parse(lngController.text);
+    review = reviewController.text;
     String image = await preparingImage();
 
     FirebaseFirestore.instance.collection('students').add({
-      'code': code,
       'name': name,
-      'dept': dept,
       'phone': phone,
       'image': image,
     });
@@ -154,7 +166,7 @@ class _InsertState extends State<Insert> {
     final firebaseStorage = FirebaseStorage.instance
         .ref()
         .child('images')
-        .child('${codeController.text}.png');
+        .child('${nameController.text}.png');
     await firebaseStorage
         .putFile(imgFile!); // file을 업로드해야 getDownloadURL()로 주소를 가져옴.
     String downloadURL = await firebaseStorage.getDownloadURL();

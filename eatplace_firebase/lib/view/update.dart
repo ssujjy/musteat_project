@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,31 +13,52 @@ class Update extends StatefulWidget {
 
 class _UpdateState extends State<Update> {
   var value = Get.arguments ?? "___";
+  
+  late int seq;
+  late String name;
+  late String phone;
+  late double lat;
+  late double lng;
+  late Uint8List image;
+  late String review;
+  late String inidate;
 
-  late TextEditingController codeController;
   late TextEditingController nameController;
-  late TextEditingController deptController;
   late TextEditingController phoneController;
+  late TextEditingController latController;
+  late TextEditingController lngController;
+  late TextEditingController reviewController;
 
   @override
   void initState() {
     super.initState();
-    codeController = TextEditingController();
     nameController = TextEditingController();
-    deptController = TextEditingController();
     phoneController = TextEditingController();
+    latController = TextEditingController();
+    lngController = TextEditingController();
+    reviewController = TextEditingController();
 
-    codeController.text = value[1];
-    nameController.text = value[2];
-    deptController.text = value[3];
-    phoneController.text = value[4];
+    seq = value[0];
+    nameController.text = value[1];
+    phoneController.text = value[2];
+    latController.text = value[3];
+    lngController.text = value[4];
+    image = value[5];
+    reviewController.text = value[6];
+
+    name = "";
+    phone = "";
+    lat = 0.0;
+    lng = 0.0;
+    review = "";
+    inidate = "";
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Update for Firebase'),
+        title: const Text('맛집 수정 - Firebase'),
       ),
       body: Center(
         child: Column(
